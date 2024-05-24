@@ -88,7 +88,7 @@ fi
 
 # Alias import
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliaes
+    . ~/.bash_aliases
 fi
 
 # Editor
