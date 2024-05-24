@@ -1,0 +1,27 @@
+[user]
+	name = Chris Holbrook
+	email = chris@madscitech.com
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	tag = auto
+[alias]
+    a = add
+	c = commit
+	com = commit
+	cam = commit -am
+	s = status
+	st = status
+	co = checkout
+	br = branch
+	d = diff
+	l = log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit
+[push]
+	default = simple
+[init]
+	defaultBranch = main
+[core]
+	autocrlf = true
+	excludesfile = C:\\Users\\Mad9Scientist\\.gitignore
+	editor = vim
