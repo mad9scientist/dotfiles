@@ -25,7 +25,8 @@ shopt -s checkwinsize
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-                                                                                                                               # set variable identifying the chroot you work in (used in the prompt below)
+
+# set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
@@ -34,6 +35,19 @@ fi
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
+
+# Git Info for PS1
+export GIT_PS1_SHOWDIRTYSTATE=
+source ~/.git-prompt.sh
+
+function changes_in_branch() {
+	if [ -d .git ]; then
+		if expr length + "$(git status)" 2>&1 > /dev/null; then
+			echo -ne "\033[0;33m$(__git_ps1)\033[0m";
+		else
+			echo -ne "\033[0;32m$(__git_ps1)\033[0m"; fi
+	fi
+}
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
@@ -52,23 +66,32 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\H\[\033[00m\]::\[\033[01;34m\]\t\n\w\[\033[00m\] \$ '
-    #if [ $(id -u) -eq 0]; then
-    #    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\H\[\033[00m\]::\[\033[01;34m\]\t\n\w\[\033[00m\] \$ '
-    #fi
+    PS1="┌──[\[\e[36m\]\t\[\e[m\]][\[\e[31m\]\u\[\e[m\]@\[\e[36m\]\H\[\e[m\]]: \e[1;33m\]\w\[\e[m\] \[\033[01;32m\]$(__git_ps1)\[\033[01;00m\] \n└──\[\e[5;31m\]\\$\[\e[m "
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:[\T]\w\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\H: \w\a\]$PS1"
+   PS1="┌──[\[\e[36m\]\t\[\e[m\]][\[\e[31m\]\u\[\e[m\]@\[\e[36m\]\H\[\e[m\]]: \e[1;33m\]\w\[\e[m\] \[\033[01;32m\]"
+   PS1+=$(changes_in_branch)
+   PS1+="\[\033[01;00m\] \n└──\[\e[5;31m\]\\$\[\e[m "
+   export PS1
     ;;
 *)
     ;;
 esac
+
+function prompt_builder() {
+	PS1="┌──[\[\e[36m\]\t\[\e[m\]][\[\e[31m\]\u\[\e[m\]@\[\e[36m\]\H\[\e[m\]]: \e[1;33m\]\w\[\e[m\] \[\033[01;32m\]"
+	PS1+=$(__git_ps1 "(%s)")
+	PS1+="\[\033[01;00m\] \n└──\[\e[5;31m\]\\$\[\e[m "
+	export PS1
+}
+PROMPT_COMMAND=prompt_builder
+
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
