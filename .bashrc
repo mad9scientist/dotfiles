@@ -3,6 +3,7 @@ case $- in
     *i*) ;;
       *) return;;
 esac
+[ -z "$PS1" ] && return
 
 # History
 HISTCONTROL=ignoreboth
@@ -38,7 +39,7 @@ esac
 
 # Git Info for PS1
 export GIT_PS1_SHOWDIRTYSTATE=
-source ~/.git-prompt.sh
+source ~/dotfiles/.git-prompt.sh
 
 function changes_in_branch() {
 	if [ -d .git ]; then
