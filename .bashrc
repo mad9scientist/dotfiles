@@ -44,9 +44,13 @@ source ~/dotfiles/.git-prompt.sh
 function changes_in_branch() {
 	if [ -d .git ]; then
 		if expr length + "$(git status)" 2>&1 > /dev/null; then
-			echo -ne "\033[0;33m$(__git_ps1)\033[0m";
+#			echo -ne "\[\e[38;5;34m\]\[\e[0;48;5;34m\]$(__git_ps1())\[\e[0;38;5;34m\]"
+echo -ne "\[\e[38;5;34m\]\[\e[0;48;5;34m\]" $(__git_ps1 %s) "\[\e[0;38;5;34m\]"
+#			echo -ne "\033[0;33m$(__git_ps1)\033[0m";
 		else
-			echo -ne "\033[0;32m$(__git_ps1)\033[0m"; fi
+			#echo -ne "\[\e[38;5;34m\]\[\e[0;48;5;34m\]$(__git_ps1)\[\e[0;38;5;34m\]" 
+#			echo -ne "\033[0;32m$(__git_ps1)\033[0m"; fi
+			echo -ne "\[\e[38;5;34m\]\[\e[0;48;5;34m\]" $(__git_ps1) "\[\e[0;38;5;34m\]"; fi
 	fi
 }
 
@@ -68,11 +72,14 @@ fi
 
 if [ "$color_prompt" = yes ]; then
     PS1="┌──[\[\e[36m\]\t\[\e[m\]][\[\e[31m\]\u\[\e[m\]@\[\e[36m\]\H\[\e[m\]]: \e[1;33m\]\w\[\e[m\] \[\033[01;32m\]$(__git_ps1)\[\033[01;00m\] \n└──\[\e[5;31m\]\\$\[\e[m "
+#    PROMPT_COMMAND='PS1_CMD1=$(__git_ps1 "%s")'; 
+#    PS1='\[\e[38;5;27m\]\[\e[0;48;5;27m\]\d \t\[\e[94m\]\[\e[48;5;21m\]\[\e[0;104m\]\u @ \H \[\e[38;5;27;7m\]\[\e[0;48;5;27m\]\w\[\e[0;38;5;27m\]\[\e[38;5;34m\]\[\e[0;48;5;34m\]${PS1_CMD1}\[\e[0;38;5;34m\]\n\[\e[94m\]\[\e[0;104m\] \$ \[\e[0;94m\]\[\e[0m\] '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
+	PS1+=$PS_GIT
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
@@ -85,13 +92,26 @@ xterm*|rxvt*)
     ;;
 esac
 
+#function prompt_builder() {
+#	PS1="┌──[\[\e[36m\]\t\[\e[m\]][\[\e[31m\]\u\[\e[m\]@\[\e[36m\]\H\[\e[m\]]: \e[1;33m\]\w\[\e[m\] \[\033[01;32m\]"
+#	PS1+=$(__git_ps1 "(%s)")
+#	PS1+="\[\033[01;00m\] \n└──\[\e[5;31m\]\\$\[\e[m "
+#	export PS1
+#}
 function prompt_builder() {
-	PS1="┌──[\[\e[36m\]\t\[\e[m\]][\[\e[31m\]\u\[\e[m\]@\[\e[36m\]\H\[\e[m\]]: \e[1;33m\]\w\[\e[m\] \[\033[01;32m\]"
-	PS1+=$(__git_ps1 "(%s)")
-	PS1+="\[\033[01;00m\] \n└──\[\e[5;31m\]\\$\[\e[m "
+#	PROMPT_COMMAND=''
+#	PS_GIT="\[\e[0;38;5;27m\]\[\e[38;5;34m\]\[\e[0;48;5;34m\]"
+	#PS_GIT=$(__git_ps1 "\[\e[38;5;34m\]\[\e[0;48;5;34m\]","\[\e[0;38;5;34m\]")
+#	PS_GIT=$(__git_ps1 "%s")
+#	PS_GIT+="\[\e[0;38;5;34m\]"
+
+	PS1="\[\e[38;5;27m\]\[\e[0;48;5;27m\]\d \t\[\e[94m\]\[\e[48;5;21m\]\[\e[0;104m\]\u @ \H \[\e[38;5;27;7m\]\[\e[0;48;5;27m\]\w\e[0;38;5;27m\]"
+	PS1+=$(changes_in_branch)
+	PS1+="\n\[\e[94m\]\[\e[0;104m\] \$ \[\e[0;94m\]\[\e[0m\] "
 	export PS1
 }
 PROMPT_COMMAND=prompt_builder
+#export PS1
 
 
 # enable color support of ls and also add handy aliases
