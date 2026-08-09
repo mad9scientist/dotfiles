@@ -4,6 +4,9 @@ alias l='ls -CF'
 
 # Lazy
 
+## This isn't windows
+alias cls='clear'
+
 ## APT
 alias upd='sudo apt update && sudo apt upgrade'
 alias apti='sudo apt install'
