@@ -88,7 +88,7 @@ esac
 function prompt_builder() {
 	PS1="\[\e[38;5;27m\]\[\e[0;48;5;27m\]\d \t\[\e[94m\]\[\e[0;104m\] \u @ \H \[\e[38;5;27;7m\]\[\e[0;48;5;27m\]\w\e[0;38;5;27m\]"
 	PS1+=$(changes_in_branch)
-	PS1+="\n\[\e[94m\]\[\e[0;104m\] \$ \[\e[0;94m\]\[\e[0m\] "
+	PS1+="\n\[\e[94m\]\[\e[0;104m\] \\$ \[\e[0;94m\]\[\e[0m\] "
 	export PS1
 }
 PROMPT_COMMAND=prompt_builder
