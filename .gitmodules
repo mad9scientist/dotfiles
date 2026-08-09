@@ -13,3 +13,27 @@
 [submodule ".tmux/plugin/nord-tmux"]
 	path = .tmux/plugins/nord-tmux
 	url = https://github.com/arcticicestudio/nord-tmux
+[submodule ".vim/plugged/fzf"]
+	path = .vim/plugged/fzf
+	url = https://github.com/junegunn/fzf
+[submodule ".vim/plugged/fzf.vim"]
+	path = .vim/plugged/fzf
+	url = https://github.com/junegunn/fzf.vim
+[submodule ".vim/plugged/nord-vim"]
+	path = .vim/plugged/nord-vim
+	url = 
+[submodule ".vim/plugged/vim-airline"]
+	path = .vim/plugged/vim-airline
+	url = 
+[submodule ".vim/plugged/vim-easy-align"]
+	path = .vim/plugged/vim-easy-align
+	url = 
+[submodule ".vim/plugged/vim-gitgutter"]
+	path = .vim/plugged/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter/
+[submodule ".vim/plugged/vim-polyglot"]
+	path = .vim/plugged/vim-polyglot
+	url = 
+[submodule ".vim/plugged/vim-sensible"]
+	path = .vim/plugged/vim-sensible
+	url = 
